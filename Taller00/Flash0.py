@@ -6,14 +6,14 @@ import random as rnd
 # Funcion que genera un mazo a partir de sumar n mazos de 52 cartas. n es la cantidad de jugadores
 def generarMazo(n):
     # armo un_mazo de 52 cartas con 4 cartas de cada numero entre 1 y 13
-    m = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-    # m = [1, 2, 3]
-    un_mazo = m + m + m + m
+    # m = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+    m = range(1, 14)
+    el_mazo = m * 4 * n
 
     # creo el_mazo y suma un mazo por cada jugador
-    el_mazo = []
-    for i in range(n):
-        el_mazo += un_mazo
+    # el_mazo = []
+    # for i in range(n):
+    #    el_mazo += un_mazo
 
     # mezcla el_mazo
     rnd.shuffle(el_mazo)
