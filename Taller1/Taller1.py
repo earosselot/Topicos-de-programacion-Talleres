@@ -29,15 +29,22 @@ def QueFieston(a):
 def esPrimo(x):
     """funcion que devuelve True si x es un numero primo"""
 
-    div = 0                     # inicializacion del contador de divisores en 0
-    for i in range(1, x+1):     # recorre todos los numeros enteros entre 1 y x
-        if x % i == 0:          # suma al contador de divisores si el resto de la division da 0
-            div += 1
-    if div == 2:                # si solo tiene 2 divisores, entonces es un numero primo y asigna True a res
-        res = True
-    else:
-        res = False             # en cualquier otro caso asigna False a la variable res
+    i = 2
+    res = True
+    while i <= (x ** (1/2)) and res != False:
+        if x % i == 0:
+            res = False
+        i += 1
     return res
+    # div = 0                     # inicializacion del contador de divisores en 0
+    # for i in range(1, x+1):     # recorre todos los numeros enteros entre 1 y x
+    #     if x % i == 0:          # suma al contador de divisores si el resto de la division da 0
+    #         div += 1
+    # if div == 2:                # si solo tiene 2 divisores, entonces es un numero primo y asigna True a res
+    #     res = True
+    # else:
+    #     res = False             # en cualquier otro caso asigna False a la variable res
+    # return res
 
 
 def es2N1(x):
@@ -65,5 +72,9 @@ def Resacon(n):
                                                 # ese numero en res. En caso de que sea el eneavo, es el valor que va a devolver
             res = numero
             contador += 1
+            print(contador, res)
         numero += 1
     return res
+
+
+Resacon(8)
