@@ -29,22 +29,12 @@ def QueFieston(a):
 def esPrimo(x):
     """funcion que devuelve True si x es un numero primo"""
 
-    i = 2
-    res = True
-    while i <= (x ** (1/2)) and res != False:
-        if x % i == 0:
-            res = False
-        i += 1
-    return res
-    # div = 0                     # inicializacion del contador de divisores en 0
-    # for i in range(1, x+1):     # recorre todos los numeros enteros entre 1 y x
-    #     if x % i == 0:          # suma al contador de divisores si el resto de la division da 0
-    #         div += 1
-    # if div == 2:                # si solo tiene 2 divisores, entonces es un numero primo y asigna True a res
-    #     res = True
-    # else:
-    #     res = False             # en cualquier otro caso asigna False a la variable res
-    # return res
+    div = 2                      # inicializo los divisores desde el 2
+    while div <= (x ** (1/2)):   # ciclo chequea los divisores desde i = 2 hasta la raiz del numero, si encuentra un
+        if x % div == 0:         # divisor, devuelve False
+            return False
+        div += 1
+    return True                  # devuelve True si no encuentra divisores
 
 
 def es2N1(x):
@@ -64,17 +54,17 @@ def Resacon(n):
     """función que se encontró entre botas de contenido incierto y ropa interior de recorrido y estado dudoso
     Además de eso, devuelve el eneavo numero primo y que es anterior a una potencia de 2"""
 
-    numero = 2                                  # inicializo la variable numero desde 2 (por definicion de numeros primos)
     contador = 0                                # inicializo en contador en 0
-    while contador < n:                         # este ciclo chequea los enteros desde el 2 hasta que n numeros cmplan
-                                                # con las condiciones (es2N1 y esPrimo)
-        if es2N1(numero) and esPrimo(numero):   # cuando un numero cumple la condicion aumenta el contador en uno y guarda
+    i = 1
+    while contador < n:                         # este ciclo chequea si cada enteros que son anteriores a potencias de dos
+                                                # cumple con la condicion de ser primo
+        numero = (2 ** i) - 1
+        if esPrimo(numero):                     # cuando un numero cumple la condicion aumenta el contador en uno y guarda
                                                 # ese numero en res. En caso de que sea el eneavo, es el valor que va a devolver
             res = numero
             contador += 1
-            print(contador, res)
-        numero += 1
+        i += 1
     return res
 
 
-Resacon(8)
+print(Resacon(8))
