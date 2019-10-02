@@ -98,10 +98,10 @@ print(listaTriangular(b))
 print(listaTriangular(c))
 
 
-a = [1, 1, 1, 3, 3, 3, 4, 5, 8, 8, 8, 11, 11, 15, 21, 21, 30, 15, 15, 15, 4, 4, 4]
+a = [1, 1, 1, 1, 5,5,5,5,5,5,5,5, 3, 3, 3, 4, 5, 8, 8, 8, 11, 11, 15, 21, 21, 21,21,21,21,21 ,25,25,25,25,25,25,25, 30, 15, 15, 15, 4, 4, 4]
 # a = [1, 2, 4, 5]
 saltos = Saltos(a, 2)
 print(saltos)
 print('len(a)', len(a))
-print(hayBorde(a, 3, 3))
+print(hayBorde(a, 2, 4))
 
