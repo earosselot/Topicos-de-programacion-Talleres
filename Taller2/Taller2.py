@@ -1,10 +1,10 @@
 def Saltos(a, h):
     """funcion de devuelve una lista (saltos) con las posiciones de los saltos de altura h de una lista a"""
 
-    saltos = []                         # inicializo la lista de saltos vacía
+    saltos = []                         # inicializo la lista de posiciones de saltos vacía
 
     for i in range(len(a) - 1):         # recorro la lista hasta el penultimo valor
-        if abs(a[i + 1] - a[i]) >= h:   # si la diferencia entre un elemento y el siguiente es mayor o igual a h,
+        if h == abs(a[i + 1] - a[i]):   # si la diferencia entre un elemento y el siguiente es igual a h,
             saltos.append(i)            # agrego el valor de la posicion del salto a la lista saltos
 
     return saltos                       # devuelvo la lista de posiciones
@@ -98,10 +98,10 @@ print(listaTriangular(b))
 print(listaTriangular(c))
 
 
-a = [1, 1, 1, 3, 3, 3, 4, 5, 8, 8, 8, 11, 11, 15, 21, 21, 30, 15, 15, 15, 4, 4, 4]
-a = [1, 2, 4, 5]
-saltos = Saltos(a, 3)
+a = [1, 1, 1, 1, 5,5,5,5,5,5,5,5, 3, 3, 3, 4, 5, 8, 8, 8, 11, 11, 15, 21, 21, 21,21,21,21,21 ,25,25,25,25,25,25,25, 30, 15, 15, 15, 4, 4, 4]
+# a = [1, 2, 4, 5]
+saltos = Saltos(a, 2)
 print(saltos)
 print('len(a)', len(a))
-print(hayBorde(a, 3, 11))
+print(hayBorde(a, 2, 4))
 
