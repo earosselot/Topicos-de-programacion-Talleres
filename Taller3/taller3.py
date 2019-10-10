@@ -5,21 +5,111 @@ import sys
 from datetime import datetime
 
 def meanNA(a):
-
     prom = 0
     for i in range(len(a)):
-        if a[i] == "NA":
-            return "NA"
+        if a[i] == 'NA':
+            return 'NA'
         prom += a[i]
 
     prom = prom / len(a)
-
     return prom
 
-def main1(argumentos):
+def meanProm(a):
+    """Los valoresNA se completan con el promedio de ese sensor para esa ventana. Sitodos son NA, el valor es NA"""
+    suma = 0
+    cantidad_num = 0
+    cantidad_NA = 0
+
+    for i in range(len(a)):
+        if a[i] != 'NA':
+            suma += a[i]
+            cantidad_num += 1
+        else:
+            cantidad_NA += 1
+
+    if cantidad_num == 0:
+        return 'NA'
+    elif cantidad_NA != 0:
+        while a.count('NA') != 0:
+            a.remove('NA')
+        mean = suma / cantidad_num
+        Prom = ((mean * cantidad_NA) + suma) / (len(a))
+        return Prom
+    else:
+        return suma / len(a)
+
+def Mediana(a):
+
+    a.sort()
+    if len(a) % 2 == 0:
+        print('mediana_ok')
+        return ( int(a[int(len(a)/2)] + a[int((len(a)/2) - 1)]) ) / 2
+    else:
+        print('mediana_ok')
+        return a[int(len(a)/2)]
+
+def meanMed(a):
+
+    suma = 0
+    cantidad_num = 0
+    cantidad_NA = 0
+
+    for i in range(len(a)):
+        if a[i] != 'NA':
+            suma += a[i]
+            cantidad_num += 1
+        else:
+            cantidad_NA += 1
+
+    if cantidad_num == 0:
+        return 'NA'
+    elif cantidad_NA != 0:
+        while a.count('NA') != 0:
+            a.remove('NA')
+        mediana = Mediana(a)
+        return ((mediana * cantidad_NA) + suma) / (len(a))
+    else:
+        return suma / len(a)
+
+def meanDist(a):
+    return a
+
+def listar(a, n):
+    """funcion que arma una lista con los eneavos elementos de cada elemento de la lista de listas a y los transforma a
+    tipo de datos float.
+    ej:
+    a = [['1','2','3'],['4','5','6'],['7','8','9']]
+    listar(a,0) = [1.0, 4.0, 7.0]
+    listar(a,2) = [3.0, 6.0, 9.0]"""
+
+    lista_nueva = []
+    for i in range(len(a)):
+        lista_nueva.append(a[i][n])
+    return lista_nueva
+
+def float_NA(a):
+    """funcion que convierte los numeros (que estan como string) a float y deja los NA como string"""
+
+    for i in range(len(a)):
+        if a[i] != 'NA':
+            a[i] = float(a[i])
+    return a
+
+def listaStr(a):
+
+    for i in range(len(a)):
+        tipo = type(a[i])
+        print(tipo)
+        if isinstance(a[i], float) or isinstance(a[i], int):
+            print('asd')
+            a[i] = round(a[i], 2)
+            a[i] = str(a[i])
+    return a
+
+def main(argumentos):
     arch_entrada = argumentos [ 0 ]
     arch_salida = argumentos [ 1 ]
-    tam_ventana = argumentos [ 2 ]
+    tam_ventana = int(argumentos [ 2 ])
 
     if len( argumentos ) > 3:
         metodo = argumentos [ 3 ]
@@ -39,49 +129,37 @@ def main1(argumentos):
             lineasDeEntrada.append(
                 camposDeLinea )  # Se agrega la lista de campos de la línea a la lista de líneas completa
 
-        print(lineasDeEntrada) # Prueba para ver que se haya leído bien el archivo de entrada
+        print(lineasDeEntrada)  # Prueba para ver que se haya leído bien el archivo de entrada
 
-        # Con los datos cargados, ya se puede hacer el procesamiento#
-        lineasDeSalida = lineasDeEntrada  # Sólo se copia la entrada, a efectos de probar la salida
+        lineasDeSalida = []
 
-        # METODO DEFAULT
-        if metodo == "def":
-            # Si alguno de los valores dentro de esta ´ultima fuera NA, el promedio debe dar NA
-            print("metodo default")
-            print(len(lineasDeEntrada[1]))
-            promedios = []
-            for vent in range(len(lineasDeEntrada)- tam_ventana):
-                for i in range(tam_ventana):
-                    promedios.insert(,"PROMEDIO DEL TIMEPO")
-                    for j in range(1, len(lineasDeEntrada[1])):
-                        promedios.insert([i][j], "PROMEDIO DE LAS TEMPERATURAS")
-            print("salida :", promedios)
+        for vent_i in range(len(lineasDeEntrada) - tam_ventana + 1):    # ciclo que recorre las ventanas
 
+            # TRATAMIENTO DEL TIEMPO
+            entrada_vent = lineasDeEntrada[vent_i:(vent_i+tam_ventana)]     # crea una lista de entradas con los datos de la ventana
+            tiempo_i = datetime.strptime(entrada_vent[0][0], '%Y-%m-%dT%H:%M:%S')   # guardo el primer tiempo de la ventana
+            tiempo_f = datetime.strptime(entrada_vent[tam_ventana - 1][0], '%Y-%m-%dT%H:%M:%S')     # guardo el ultimo tiempo de la ventana
+            delta = tiempo_f - tiempo_i     # saco la diferencia de tiempos
+            lineasDeSalida.append([delta.seconds])
 
+            # armo listas por cada sensor, del tamaño de la ventana para sacar los promedios
+            for i in range(1, len(entrada_vent[0])):    # recorre el recorte de la ventana
+                sensor_i = listar(entrada_vent, i)
+                sensor_i = float_NA(sensor_i)
+                if metodo == 'def':
+                    lineasDeSalida[vent_i].append(meanNA(sensor_i))
+                elif metodo == 'prom':
+                    lineasDeSalida[vent_i].append(meanProm(sensor_i))
+                elif metodo == 'med':
+                    print("entre aca")
+                    lineasDeSalida[vent_i].append(meanMed(sensor_i))
+                elif metodo == 'dist':
+                    lineasDeSalida[vent_i].append(meanDist(sensor_i))
 
-        # METODO PROMEDIO
-        elif metodo == "prom":
-            # Los valores NA se completar´an con el promedio de ese sensor para esa ventana. Si
-            # todos son NA, el valor es NA
-            print("metodo prom")
+        for i in range(len(lineasDeSalida)):
+            listaStr(lineasDeSalida[i])
 
-        # METODO MEDIANA
-        elif metodo == "med":
-            # Los valores NA se completar´an con la mediana de ese sensor para esa ventana. Si
-            # todos son NA, el valor es NA
-            print( "metodo med" )
-
-
-        # METODO DISTRIBUCION
-        elif metodo == "dist":
-            # Valores de la misma distribuci´on de valores. As´ı, se debe genera nuevos valores a
-            # partir de la distribuci´on de todos los valores de esa ventana. Probar qu´e ocurre si se toman
-            # todos los valores (la lista completa).
-            print( "metodo dist" )
-
-        else:
-            print("Metodo no válido")
-
+        print('salida_str:', lineasDeSalida)
 
         for lineaPorCampos in lineasDeSalida:
             print( ",".join( lineaPorCampos [ 1: ] ),
@@ -89,24 +167,12 @@ def main1(argumentos):
 
 # Sólo si el programa es ejecutado (esto es, no se usa con 'import') se ejecturará lo de abajo
 
-entrada = "entrada1.csv"
-salida = "salida.csv"
-ventana = 3
-metodo = "def"
+if __name__ == "__main__":
 
-argumentos = [entrada, salida, ventana, metodo]
+    if len( sys.argv ) < 4:
+        print( "Se esperaban más argumentos:\n taller3.py arch_entrada arch_salida tam_ventana [metodo_na]" )
+        sys.exit( 1 )
 
-main1(argumentos)
-
-a = [1, 5, 8, "NA"]
-print(meanNA(a))
-
-# if __name__ == "__main__":
-#
-#     if len( sys.argv ) < 4:
-#         print( "Se esperaban más argumentos:\n taller3.py arch_entrada arch_salida tam_ventana [metodo_na]" )
-#         sys.exit( 1 )
-#
-#     main( sys.argv [ 1: ] )
+    main( sys.argv [ 1: ] )
 
 
