@@ -5,74 +5,60 @@ import sys
 from datetime import datetime
 
 def meanNA(a):
+    """funcion que devuelve la media de una lista, si no hay ningun valor 'NA'"""
+
     prom = 0
-    for i in range(len(a)):
+    for i in range(len(a)):     # suma los valores si son distintos a 'NA'
         if a[i] == 'NA':
             return 'NA'
         prom += a[i]
-
-    prom = prom / len(a)
-    return prom
+    return prom / len(a)        # saca y devuelve el promedio
 
 def meanProm(a):
-    """Los valoresNA se completan con el promedio de ese sensor para esa ventana. Sitodos son NA, el valor es NA"""
-    suma = 0
-    cantidad_num = 0
-    cantidad_NA = 0
+    """Devuelve el promedio de a.
+    Si hay 'NA', los valores NA se completan con el promedio de ese sensor para esa ventana.
+    Si todos son NA, el valor es NA"""
 
-    for i in range(len(a)):
-        if a[i] != 'NA':
-            suma += a[i]
-            cantidad_num += 1
-        else:
-            cantidad_NA += 1
-
-    if cantidad_num == 0:
+    cant_NA = a.count('NA')     # cuenta los elementos 'NA'
+    if cant_NA == len(a):       # chquea si son todos 'NA'
         return 'NA'
-    elif cantidad_NA != 0:
-        while a.count('NA') != 0:
+    elif cant_NA != 0:          # sino, pero hay algun 'NA'
+        while a.count('NA') != 0: # saca todos los 'NA' de la lista, para poder calcular la media
             a.remove('NA')
-        mean = suma / cantidad_num
-        Prom = ((mean * cantidad_NA) + suma) / (len(a))
-        return Prom
+        suma = sum(a)           # saco el promedio de los valores
+        mean = suma / len(a)
+        return ((mean * cant_NA) + suma) / (len(a) + cant_NA)   # devuelve el promedio reemplazando los 'NA' con el promedio
     else:
-        return suma / len(a)
+        return sum(a) / len(a)  # devuelve el promedio
+
 
 def Mediana(a):
+    """Calucula la mediana de una lista de valores a."""
 
-    a.sort()
-    if len(a) % 2 == 0:
+    a.sort()                # ordena la lista
+    if len(a) % 2 == 0:     # si la cantidad de elementos es par, devuelve la media de los valores centrales
         print('mediana_ok')
-        return ( int(a[int(len(a)/2)] + a[int((len(a)/2) - 1)]) ) / 2
-    else:
+        return (int(a[int(len(a)/2)] + a[int((len(a)/2) - 1)])) / 2
+    else:                   # si la cantidad de elementos es impar, devuelve el elemento central
         print('mediana_ok')
         return a[int(len(a)/2)]
 
 def meanMed(a):
+    """Devuelve el promedio de a.
+    Si hay 'NA', los valores 'NA' se completaran con la mediana de ese sensor para esa ventana.
+    Si todos son 'NA', el valor es 'NA'."""
 
-    suma = 0
-    cantidad_num = 0
-    cantidad_NA = 0
-
-    for i in range(len(a)):
-        if a[i] != 'NA':
-            suma += a[i]
-            cantidad_num += 1
-        else:
-            cantidad_NA += 1
-
-    if cantidad_num == 0:
+    cant_NA = a.count('NA')         # cuenta los elementos 'NA'
+    if cant_NA == len(a):           # chequea si son todos 'NA'
         return 'NA'
-    elif cantidad_NA != 0:
-        while a.count('NA') != 0:
+    elif cant_NA != 0:                 # sino, pero hay valores 'NA'
+        while a.count('NA') != 0:   # saca todos los 'NA' de la lista, para poder calcular la mediana de los valores restantes
             a.remove('NA')
+        suma = sum(a)
         mediana = Mediana(a)
-        return ((mediana * cantidad_NA) + suma) / (len(a))
+        return ((mediana * cant_NA) + suma) / (len(a) + cant_NA)    # devuelve el promedio, reemplazando los 'NA' por la mediana
     else:
-        return suma / len(a)
-
-def meanDist(a):
-    return a
+        return sum(a) / len(a)      # devuelve el promedio
 
 def listar(a, n):
     """funcion que arma una lista con los eneavos elementos de cada elemento de la lista de listas a y los transforma a
@@ -96,77 +82,70 @@ def float_NA(a):
     return a
 
 def listaStr(a):
+    """funcion que redondea a la segunda cifra significativa los elementos float de una lista y los convierte en str."""
 
     for i in range(len(a)):
-        tipo = type(a[i])
-        print(tipo)
-        if isinstance(a[i], float) or isinstance(a[i], int):
-            print('asd')
+        if isinstance(a[i], float):
             a[i] = round(a[i], 2)
             a[i] = str(a[i])
     return a
 
 def main(argumentos):
-    arch_entrada = argumentos [ 0 ]
+    arch_entrada = argumentos [ 0 ]         # asigno los argumentos a variables
     arch_salida = argumentos [ 1 ]
     tam_ventana = int(argumentos [ 2 ])
 
-    if len( argumentos ) > 3:
+    if len( argumentos ) > 3:               # metodo idicado o deefault
         metodo = argumentos [ 3 ]
     else:
         metodo = "def"
 
-    print('I:',arch_entrada, ' O:', arch_salida, ' L:', tam_ventana, ' M:', metodo) # Prueba para ver los parámetros que llegaron
+    print('I:',arch_entrada, ' O:', arch_salida, ' L:', tam_ventana, ' M:', metodo)     # Prueba para ver los parámetros que llegaron
 
-    with open( arch_entrada, 'r' ) as entrada, open( arch_salida,
-                                                     'w' ) as salida:  # Abre los archivos de entrada (en modo R:Read) y el de salida (en modo W:Write)
-        lineasDeEntrada = [ ]  # Aquí nos vamos a guardar toda la info del archivo de entrada
+    with open( arch_entrada, 'r' ) as entrada, open( arch_salida, 'w' ) as salida:      # Abre los archivos de entrada (en modo R:Read) y el de salida (en modo W:Write)
 
-        print(entrada)
+        lineasDeEntrada = [ ]   # Aquí nos vamos a guardar toda la info del archivo de entrada
+
         for linea in entrada:
-            linea = linea.strip( '\n' )  # Elimina el salto de línea del final
+            linea = linea.strip( '\n' )         # Elimina el salto de línea del final
             camposDeLinea = linea.split( ',' )  # Se parte la cadena de la línea entera y se genera una lista
             lineasDeEntrada.append(
-                camposDeLinea )  # Se agrega la lista de campos de la línea a la lista de líneas completa
-
-        print(lineasDeEntrada)  # Prueba para ver que se haya leído bien el archivo de entrada
+                camposDeLinea )                 # Se agrega la lista de campos de la línea a la lista de líneas completa
 
         lineasDeSalida = []
 
         for vent_i in range(len(lineasDeEntrada) - tam_ventana + 1):    # ciclo que recorre las ventanas
 
             # TRATAMIENTO DEL TIEMPO
-            entrada_vent = lineasDeEntrada[vent_i:(vent_i+tam_ventana)]     # crea una lista de entradas con los datos de la ventana
-            tiempo_i = datetime.strptime(entrada_vent[0][0], '%Y-%m-%dT%H:%M:%S')   # guardo el primer tiempo de la ventana
+            entrada_vent = lineasDeEntrada[vent_i:(vent_i+tam_ventana)]                             # crea una lista de entradas con los datos de la ventana
+            tiempo_i = datetime.strptime(entrada_vent[0][0], '%Y-%m-%dT%H:%M:%S')                   # guardo el primer tiempo de la ventana
             tiempo_f = datetime.strptime(entrada_vent[tam_ventana - 1][0], '%Y-%m-%dT%H:%M:%S')     # guardo el ultimo tiempo de la ventana
-            delta = tiempo_f - tiempo_i     # saco la diferencia de tiempos
-            lineasDeSalida.append([delta.seconds])
+            delta = tiempo_f - tiempo_i                                                             # saco la diferencia de tiempos
+            lineasDeSalida.append([float(delta.seconds)])                                           # agrega a la listaDeSalidas, una lista con el delta-t de la ventana
 
             # armo listas por cada sensor, del tamaño de la ventana para sacar los promedios
-            for i in range(1, len(entrada_vent[0])):    # recorre el recorte de la ventana
-                sensor_i = listar(entrada_vent, i)
-                sensor_i = float_NA(sensor_i)
+            for i in range(1, len(entrada_vent[0])):    # recorre el recorte de la ventana, cada iteracion contempla 1 sensor
+                sensor_i = listar(entrada_vent, i)      # hago una lista con los valores del sensor en la ventana
+                sensor_i = float_NA(sensor_i)           # paso los numeros a float, y los NA los deja como str
+
+                # agrega a la lista de la ventana el promedio de temperaturas según el metodo elegido
                 if metodo == 'def':
                     lineasDeSalida[vent_i].append(meanNA(sensor_i))
                 elif metodo == 'prom':
                     lineasDeSalida[vent_i].append(meanProm(sensor_i))
                 elif metodo == 'med':
-                    print("entre aca")
                     lineasDeSalida[vent_i].append(meanMed(sensor_i))
-                elif metodo == 'dist':
-                    lineasDeSalida[vent_i].append(meanDist(sensor_i))
+                else:
+                    return print("Metodo de promedio no valido. Metodos validos: def prom med")
 
-        for i in range(len(lineasDeSalida)):
+        for i in range(len(lineasDeSalida)):    #transforma los tipos de dato a str y redondea a la segunda cifra significativa
             listaStr(lineasDeSalida[i])
 
-        print('salida_str:', lineasDeSalida)
-
         for lineaPorCampos in lineasDeSalida:
-            print( ",".join( lineaPorCampos [ 1: ] ),
-                   file=salida )  # Guarda en un archivo los campos originales, sin la primera columna
+            print( ",".join( lineaPorCampos [ : ] ),
+                   file=salida )  # Guarda en un archivo los campos originales
 
 # Sólo si el programa es ejecutado (esto es, no se usa con 'import') se ejecturará lo de abajo
-
 if __name__ == "__main__":
 
     if len( sys.argv ) < 4:
@@ -174,5 +153,3 @@ if __name__ == "__main__":
         sys.exit( 1 )
 
     main( sys.argv [ 1: ] )
-
-
