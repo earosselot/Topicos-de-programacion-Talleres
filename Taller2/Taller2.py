@@ -83,25 +83,5 @@ def listaTriangular(a):
     max_pos = maxPos(a)             # ecuentro el valor maximo de la lista
     termino1 = a[0: max_pos]        # divido la lista en dos terminos, hasta y desde el maximo
     termino2 = a[max_pos:]
-    if EsCreciente(termino1) == True and EsDecreciente(termino2) == True:   # si se cumple que la lista es creciente
-                                                                            # hasta el maximo y decreciende desde el
-                                                                            # maximo, devuelve True
-        return True
-    return False                                                            # sino, devuelve False
 
-a = [1, 3, 4, 5]
-b = []
-c = [1, 2, 3, 5, 4, 2, 1]
-print(maxPos(a))
-print(listaTriangular(a))
-print(listaTriangular(b))
-print(listaTriangular(c))
-
-
-a = [1, 1, 1, 1, 5,5,5,5,5,5,5,5, 3, 3, 3, 4, 5, 8, 8, 8, 11, 11, 15, 21, 21, 21,21,21,21,21 ,25,25,25,25,25,25,25, 30, 15, 15, 15, 4, 4, 4]
-# a = [1, 2, 4, 5]
-saltos = Saltos(a, 2)
-print(saltos)
-print('len(a)', len(a))
-print(hayBorde(a, 2, 4))
-
+    return EsCreciente(termino1) and EsDecreciente(termino2)
