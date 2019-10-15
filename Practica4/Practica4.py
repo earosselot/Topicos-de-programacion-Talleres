@@ -118,8 +118,100 @@ def promedio(a):
 
 
 def lista_de_abs(a):
-    if len(a) == 0:
-        return None
+    if len(a) == 1:
+        return [abs(a[0])]
     else:
-        a[0] = abs(a[0])
-    return lista_de_abs(a[1:])
+        return [abs(a[0])] + lista_de_abs(a[1:])
+
+def maximoAbsoluto(a):
+    return maximo(lista_de_abs(a))
+
+
+def cambio_de_base(n, x):
+    if n // x == 1 or n // x == 0:
+        return [n // x, n % x]
+    else:
+        return cambio_de_base(n // x, x) + [n % x]
+
+
+def cantidad_apariciones(a, x):
+    if len(a) == 0:
+        return 0
+    elif a[0] == x:
+        return 1 + cantidad_apariciones(a[1:], x)
+    else:
+        return cantidad_apariciones(a[1:], x)
+
+def eliminar(a, x):
+    if x == 0:
+        return a[1:]
+    else:
+        return [a[0]] + eliminar(a[1:], x-1)
+
+def seekANDdestroy(a, x):
+    if len(a) == 1:
+        if a[0] == x:
+            return []
+        else:
+            return [a[0]]
+    elif a[0] == x:
+        return seekANDdestroy(a[1:], x)
+    else:
+        return [a[0]] + seekANDdestroy(a[1:], x)
+
+
+def todos_pares(a):
+    if len(a) == 1:
+        if a[0] % 2 == 0:
+            return True
+        else:
+            return False
+    elif a[0] % 2 == 0:
+        return True and todos_pares(a[1:])
+    else:
+        return False
+
+def ordenAscendente(a):
+    if len(a) == 2:
+        if a[0] <= a[1]:
+            return True
+        else:
+            return False
+    elif a[0] <= a[1]:
+        return True and ordenAscendente(a[1:])
+    else:
+        return False
+
+def reverso(a):
+    if len(a) == 1:
+        return [a[0]]
+    else:
+        return reverso(a[1:]) + [a[0]]
+
+
+def sumaPosImpares(a):
+
+    if len(a) < 1:
+        return 0
+    elif len(a) == 2:
+        return a[1]
+    else:
+        return a[1] + sumaPosImpares(a[2:])
+
+def max_i(a):
+    """devuelve el indice del maximo de a"""
+
+    if len(a) < 1:
+        if a[0] > a[1]:
+            return
+    if a[0] >= a[1]:
+        return
+
+def triangular(a):
+
+
+    max = maximo(a)
+    if len(a) == 1:
+        return True
+
+
