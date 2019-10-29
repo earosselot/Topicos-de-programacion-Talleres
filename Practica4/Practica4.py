@@ -193,10 +193,11 @@ def sumaPosImpares(a):
 
     if len(a) < 1:
         return 0
-    elif len(a) == 2:
+    elif len(a) == 2 or len(a) == 3:
         return a[1]
     else:
         return a[1] + sumaPosImpares(a[2:])
+
 
 def max_i(a):
     """devuelve el indice del maximo de a"""

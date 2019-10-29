@@ -170,7 +170,7 @@ def divisores(n):
         n = int(abs(n))
         listaDivisores = []
         for i in range(1, n + 1):
-            if divisible(n, i):
+            if n % i == 0:
                 listaDivisores.append(i)
     else:
         listaDivisores = 'infinitos'
