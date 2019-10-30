@@ -8,7 +8,7 @@ N = 1000
 
 
 def matrizCeros():
-    """genera una matriz de ceros usando de tamano N x N. N es una variable externa."""
+    """genera una matriz de ceros de tamano N x N. N es una variable externa."""
 
     a = []
     for j in range(N):
@@ -32,12 +32,14 @@ def multMatrices(a, b, res):
 
     if isinstance(a, np.matrix):
         res = np.matmul(a, b)
-        # print("res :", res)# res NO GUARDA LA MULTIPLICACION, NO SE PORQUE..
+        print("res :", res)     # imprime la matriz de ceros
+        print(np.matmul(a, b))  # imprime el resultado de la multiplicación
     else:
-        tam_c = len(res)
+        tam_c = len(res)        # guardo el tamaño de la matriz en una variable
         for i in range(tam_c):
-            for j in range(tam_c):
-                for k in range(tam_c):
+            for j in range(tam_c):      # los dos for anteriores recorren cada posición de la matriz de resultados (res)
+                for k in range(tam_c):  # este for recorre a la vez la i-esima fila de a y la j-esima columna de b y
+                                        # va sumando los productos.
                     res[i][j] += a[i][k] * b[k][j]
 
 
