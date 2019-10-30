@@ -50,9 +50,18 @@ void eliminarMatriz(float *a)
 /************* COMPLETAR LA SIGUIENTE FUNCION: **************/
 /************* COMPLETAR LA SIGUIENTE FUNCION: **************/
 
-void multMatrices(const float* a, const float* b, float *res)
+void multMatrices(const float* a, const float* b, float* res)
 {
-
+    for (int i = 0; i < N; i++) 
+    {
+        for (int j = 0; j < N; j++)
+        {
+            for (int k = 0; k < N; k++)
+            {
+                res[(i * N) + j] += a[(i * N) + k] * b [(k * N) + j];
+            }
+        }
+    }
 }
 
 /************************************************************/
