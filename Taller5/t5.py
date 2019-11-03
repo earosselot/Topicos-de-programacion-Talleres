@@ -4,7 +4,7 @@ import random
 import sys
 
 global N
-N = 1000
+# N = 1000
 
 
 def matrizCeros():
@@ -24,7 +24,7 @@ def matrizAleatoria(a):
     tam_a = len(a)
     for j in range(tam_a):
         for i in range(tam_a):
-            a[j][i] = int(random.random() * 5)
+            a[j][i] = random.random() * 5
 
 
 def multMatrices(a, b, res):
@@ -32,8 +32,6 @@ def multMatrices(a, b, res):
 
     if isinstance(a, np.matrix):
         res = np.matmul(a, b)
-        print("res :", res)     # imprime la matriz de ceros
-        print(np.matmul(a, b))  # imprime el resultado de la multiplicación
     else:
         tam_c = len(res)        # guardo el tamaño de la matriz en una variable
         for i in range(tam_c):
@@ -41,6 +39,7 @@ def multMatrices(a, b, res):
                 for k in range(tam_c):  # este for recorre a la vez la i-esima fila de a y la j-esima columna de b y
                                         # va sumando los productos.
                     res[i][j] += a[i][k] * b[k][j]
+    return
 
 
 def medirTiempos(fn, *args):
@@ -65,7 +64,7 @@ def realizarExperimento():
     # 3) Evaluar con medir tiempos multMatrices entre A y B y guardar en C
     tiempo_listas = medirTiempos(multMatrices, A, B, C)
     # print(C)
-    print("Tiempo total listas: %f.5 seg" % tiempo_listas)
+    print("Tiempo total listas: %f seg" % tiempo_listas)
 
     # 4) Generar los equivalentes de A y B en matrices de Numpy
     A_np = np.matrix(A)
@@ -77,12 +76,10 @@ def realizarExperimento():
     # 6) Evaluar con medir tiempos multMatrices entre A_np y B_np y guardar en C_np
     tiempo_np = medirTiempos(multMatrices, A_np, B_np, C_np)
     # print("C_np :", C_np)
-    print("Tiempo total numpy: %f.5 seg" % tiempo_np)
+    print("Tiempo total numpy: %f seg" % tiempo_np)
 
 
-realizarExperimento()
-
-# if __name__ == '__main__':
-#     if len(sys.argv) > 1:
-#         N = int(sys.argv[1])
-#     realizarExperimento()
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        N = int(sys.argv[1])
+    realizarExperimento()

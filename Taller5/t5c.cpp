@@ -13,7 +13,7 @@
  
 /* Tama~nos de las matrices */
 #ifndef N
-	#define N 2000
+	#define N 1000
 #endif
 
 float* matrizCeros()
